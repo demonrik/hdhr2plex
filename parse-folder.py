@@ -43,7 +43,7 @@ def get_files_in_dir(path):
     return [os.path.join(path,f) for f in os.listdir(path) if os.path.isfile(os.path.join(path,f)) & f.endswith('.mpg')]
 
 def parse_file_for_data(filename):
-    parser = tsparser.TSParser(filename)
+    parser = hdhr_tsparser.TSParser(filename)
     payloads = 0
     tempMD = []
     pid_found = False
