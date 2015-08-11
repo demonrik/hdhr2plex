@@ -255,7 +255,7 @@ if __name__ == "__main__":
         logging.info('= Season: ' + season)
         logging.info('= Episode: ' + episode)
         logging.info(' ===')
-        check_show_in_plex(plex_path,show,epNumber,f)
+        check_show_in_plex(plex_path,show,season,f)
         
         
 
