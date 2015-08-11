@@ -63,15 +63,19 @@ def parse_file_for_data(filename):
 def check_show_in_plex(plexpath, show, season, filename):
     #Check plexpath exists
     if not os.path.exists(plexpath):
+        logging.info('Plex Path ' + plexpath + ' does not exist.')
         return False
     #now check for the show
     if not os.path.exists(os.path.join(plexpath,show)):
+        logging.info('Show ' + show +  ' does not exist in path ' + plexpath)
         return False
     #what about this season
     if not os.path.exists(os.path.join(plexpath,show,season)):
+        logging.info('Season ' + season +  ' does not exist in show ' + show + ' for path ' + plexpath)
         return False
     #and finally does the episode exist
     if not os.path.exists(os.path.join(plexpath,show,season,filename)):
+        logging.info('Episode ' + filename + ' for Season ' + season +  ' does not exist in show ' + show + ' for path ' + plexpath)
         return False
     return True
 
