@@ -88,18 +88,20 @@ def check_show_in_plex(plexpath, show, season, filename):
     #what about this season
     #Season can take form , Season XX, SeasonXX, SeasonX
     seasons = get_season_combinations(season)
+    valid_season = ''
     season_check = False
     for s in seasons:
         if os.path.exists(os.path.join(plexpath,show,s)):
             season_check |= True
+            valid_season = s
 
     if not season_check:
-        logging.info('Season ' + s +  ' does not exist in show ' + show + ' for path ' + plexpath)
+        logging.info('Season ' + season +  ' does not exist in show ' + show + ' for path ' + plexpath)
         return False
 
     #and finally does the episode exist
-    if not os.path.exists(os.path.join(plexpath,show,season,filename)):
-        logging.info('Episode ' + filename + ' for Season ' + season +  ' does not exist in show ' + show + ' for path ' + plexpath)
+    if not os.path.exists(os.path.join(plexpath,show,valid_season,filename)):
+        logging.info('Episode ' + filename + ' for Season ' + valid_season +  ' does not exist in show ' + show + ' for path ' + plexpath)
         return False
     return True
 
