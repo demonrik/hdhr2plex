@@ -15,6 +15,7 @@ from time import strftime
 import datetime
 import hdhr_tsparser
 import tvdb_api
+import plextools
 
 AUTO_DELETE = False
 HDHR_TS_METADATA_PID = 0x1FFA
@@ -60,51 +61,6 @@ def parse_file_for_data(filename):
                 break
     return parser.extract_metadata(tempMD)
 
-def get_season_combinations(season):
-    leading_zero = True
-    season_title = 'Season'
-    season_str = []
-    season_num = int(season)
-
-    season_str.append(season_title + str(season_num).zfill(2))
-    season_str.append(season_title + ' ' + str(season_num).zfill(2))
-    if (season_num < 10):
-        season_str.append(season_title + str(season_num).zfill(1))
-        season_str.append(season_title + ' ' + str(season_num).zfill(1))
-    
-    logging.debug('Creating season combination strings for season: ' + str(season_str))
-    return season_str
-
-def check_show_in_plex(plexpath, show, season, filename):
-    #Check plexpath exists
-    if not os.path.exists(plexpath):
-        logging.info('Plex Path ' + plexpath + ' does not exist.')
-        return False
-    #now check for the show
-    if not os.path.exists(os.path.join(plexpath,show)):
-        logging.info('Show ' + show +  ' does not exist in path ' + plexpath)
-        return False
-
-    #what about this season
-    #Season can take form , Season XX, SeasonXX, SeasonX
-    seasons = get_season_combinations(season)
-    valid_season = ''
-    season_check = False
-    for s in seasons:
-        if os.path.exists(os.path.join(plexpath,show,s)):
-            season_check |= True
-            valid_season = s
-
-    if not season_check:
-        logging.info('Season ' + season +  ' does not exist in show ' + show + ' for path ' + plexpath)
-        return False
-
-    #and finally does the episode exist
-    if not os.path.exists(os.path.join(plexpath,show,valid_season,filename)):
-        logging.info('Episode ' + filename + ' for Season ' + valid_season +  ' does not exist in show ' + show + ' for path ' + plexpath)
-        return False
-    return True
-
 def extract_show(metaData):
     for md in metaData:
         if md[0] == '"DisplayGroupTitle"' :
@@ -144,7 +100,6 @@ def get_episode_string(showname,epNumber,epAirdate,epTitle):
                     episode_str = 'E' + str(ep)
                     return episode_str
     return episode_str
-
 
 def get_season_string(showname,epNumber,epAirdate,epTitle):
     season_str = '00'
@@ -226,6 +181,17 @@ def parse_config_file(args,config_file):
                                     level=LOGLEVELS.get(loglevel, logging.WARNING))
         print 'Logging to: ', logfile
 
+def update_plex(plexpath, show, season, filename):
+    plex = plextools.PlexTools(plexpath)
+    if plex.check_file_exists_in_plex(plex_path,show,season,os.path.basename(f)):
+        logging.info( f + ' already exists in plex folder')
+        # TODO: make sure a link exists, if not - add to duplicates list
+    else:
+        plex.add_season_to_plex(plex_path,show,('Season '+ season))
+        plex.move_episode_to_plex(plex_path,show,season,f)
+        plex.link_episode_to_dvr(plex_path,show,season,f)
+
+
 if __name__ == "__main__":
     interactive = False;
     arg_parser = argparse.ArgumentParser(description='Process command line args')
@@ -281,8 +247,12 @@ if __name__ == "__main__":
         logging.info('= Season: ' + season)
         logging.info('= Episode: ' + episode)
         logging.info(' ===')
-        if check_show_in_plex(plex_path,show,season,os.path.basename(f)):
-            logging.info( f + ' already exists in plex folder')
         
-        
+        update_plex(plex_path,show,season,f)
+        logging.info('Completed for : ' + f)
+
+    logging.info('------------------------------------------------------------')
+    logging.info('-              HDHR TS MetaData Tool Complete              -')
+    logging.info('-                   '+strftime("%Y-%m-%d %H:%M:%S")+'                    -')
+    logging.info('------------------------------------------------------------')
 
