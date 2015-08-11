@@ -279,8 +279,8 @@ if __name__ == "__main__":
         logging.info('= Season: ' + season)
         logging.info('= Episode: ' + episode)
         logging.info(' ===')
-        if check_show_in_plex(plex_path,show,season,f):
-            logging.info( f + 'already exists in plex folder')
+        if check_show_in_plex(plex_path,show,season,os.path.basename(f)):
+            logging.info( f + ' already exists in plex folder')
         
         
 
