@@ -60,6 +60,21 @@ def parse_file_for_data(filename):
                 break
     return parser.extract_metadata(tempMD)
 
+def get_season_combinations(season):
+    leading_zero = True
+    season_title = 'Season'
+    season_str = []
+    season_num = int(season)
+
+    season_str.append(season_title + str(season_num).zfill(2))
+    season_str.append(season_title + ' ' + str(season_num).zfill(2))
+    if (season_num < 10):
+        season_str.append(season_title + str(season_num).zfill(1))
+        season_str.append(season_title + ' ' + str(season_num).zfill(1))
+    
+    logging.debug('Creating season combination strings for season: ' + str(season_str))
+    return season_str
+
 def check_show_in_plex(plexpath, show, season, filename):
     #Check plexpath exists
     if not os.path.exists(plexpath):
@@ -69,10 +84,19 @@ def check_show_in_plex(plexpath, show, season, filename):
     if not os.path.exists(os.path.join(plexpath,show)):
         logging.info('Show ' + show +  ' does not exist in path ' + plexpath)
         return False
+
     #what about this season
-    if not os.path.exists(os.path.join(plexpath,show,season)):
-        logging.info('Season ' + season +  ' does not exist in show ' + show + ' for path ' + plexpath)
+    #Season can take form , Season XX, SeasonXX, SeasonX
+    seasons = get_season_combinations(season)
+    season_check = False
+    for s in seasons:
+        if os.path.exists(os.path.join(plexpath,show,s)):
+            season_check |= True
+
+    if not season_check:
+        logging.info('Season ' + s +  ' does not exist in show ' + show + ' for path ' + plexpath)
         return False
+
     #and finally does the episode exist
     if not os.path.exists(os.path.join(plexpath,show,season,filename)):
         logging.info('Episode ' + filename + ' for Season ' + season +  ' does not exist in show ' + show + ' for path ' + plexpath)
@@ -123,7 +147,7 @@ def get_episode_string(showname,epNumber,epAirdate,epTitle):
 def get_season_string(showname,epNumber,epAirdate,epTitle):
     season_str = '00'
     if epNumber[0] == 'S':
-        season_str = 'Season' + epNumber[1:3]
+        season_str = epNumber[1:3]
     else:
         # going to have to search for it
         tvdb = tvdb_api.Tvdb()
@@ -136,7 +160,7 @@ def get_season_string(showname,epNumber,epAirdate,epTitle):
                 check_date = datetime.datetime.utcfromtimestamp(int(epAirdate))
                 if ep_date == check_date:
                     logging.debug('MATCHED Season [' + str(season) + '] Episode [' + str(ep) + ']')
-                    season_str = 'Season' + str(season)
+                    season_str = str(season)
                     return season_str
     return season_str
 
