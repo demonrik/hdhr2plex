@@ -1,0 +1,233 @@
+INFO:root:------------------------------------------------------------
+INFO:root:-                  HDHR TS MetaData Tool                   -
+INFO:root:-                   2015-08-11 23:26:27                    -
+INFO:root:------------------------------------------------------------
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF179 20150805 [20150806-0535].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: The Tonight Show Starring Jimmy Fallon
+INFO:root:= Season: 02
+INFO:root:= Episode: E121
+INFO:root: ===
+INFO:root:Episode The Tonight Show Starring Jimmy Fallon AF179 20150805 [20150806-0535].mpg for Season Season 02 does not exist in show The Tonight Show Starring Jimmy Fallon for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF179 20150805 [20150806-0535].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/MasterChef S06E11 20150722 [20150723-0200].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: MasterChef
+INFO:root:= Season: 06
+INFO:root:= Episode: E11
+INFO:root: ===
+INFO:root:Episode MasterChef S06E11 20150722 [20150723-0200].mpg for Season Season 06 does not exist in show MasterChef for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/MasterChef S06E11 20150722 [20150723-0200].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Under the Dome S03E08 20150806 [20150807-0400].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Under the Dome
+INFO:root:= Season: 03
+INFO:root:= Episode: E08
+INFO:root: ===
+INFO:root:Episode Under the Dome S03E08 20150806 [20150807-0400].mpg for Season Season 03 does not exist in show Under the Dome for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Under the Dome S03E08 20150806 [20150807-0400].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Under the Dome S03E05 20150716 [20150717-0400].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Under the Dome
+INFO:root:= Season: 03
+INFO:root:= Episode: E05
+INFO:root: ===
+INFO:root:Episode Under the Dome S03E05 20150716 [20150717-0400].mpg for Season Season 03 does not exist in show Under the Dome for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Under the Dome S03E05 20150716 [20150717-0400].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Mistresses S03E08 20150730 [20150731-0300].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Mistresses
+INFO:root:= Season: 03
+INFO:root:= Episode: E08
+INFO:root: ===
+INFO:root:Episode Mistresses S03E08 20150730 [20150731-0300].mpg for Season Season 03 does not exist in show Mistresses for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Mistresses S03E08 20150730 [20150731-0300].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Under the Dome S03E06 20150723 [20150724-0400].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Under the Dome
+INFO:root:= Season: 03
+INFO:root:= Episode: E06
+INFO:root: ===
+INFO:root:Episode Under the Dome S03E06 20150723 [20150724-0400].mpg for Season Season 03 does not exist in show Under the Dome for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Under the Dome S03E06 20150723 [20150724-0400].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF181 20150807 [20150808-0535].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: The Tonight Show Starring Jimmy Fallon
+INFO:root:= Season: 02
+INFO:root:= Episode: E123
+INFO:root: ===
+INFO:root:Episode The Tonight Show Starring Jimmy Fallon AF181 20150807 [20150808-0535].mpg for Season Season 02 does not exist in show The Tonight Show Starring Jimmy Fallon for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF181 20150807 [20150808-0535].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF177 20150803 [20150804-0535].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: The Tonight Show Starring Jimmy Fallon
+INFO:root:= Season: 02
+INFO:root:= Episode: E119
+INFO:root: ===
+INFO:root:Episode The Tonight Show Starring Jimmy Fallon AF177 20150803 [20150804-0535].mpg for Season Season 02 does not exist in show The Tonight Show Starring Jimmy Fallon for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF177 20150803 [20150804-0535].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/MasterChef S06E13 20150805 [20150806-0200].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: MasterChef
+INFO:root:= Season: 06
+INFO:root:= Episode: E13
+INFO:root: ===
+INFO:root:Episode MasterChef S06E13 20150805 [20150806-0200].mpg for Season Season 06 does not exist in show MasterChef for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/MasterChef S06E13 20150805 [20150806-0200].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/MasterChef S06E12 20150729 [20150730-0200].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: MasterChef
+INFO:root:= Season: 06
+INFO:root:= Episode: E12
+INFO:root: ===
+INFO:root:Episode MasterChef S06E12 20150729 [20150730-0200].mpg for Season Season 06 does not exist in show MasterChef for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/MasterChef S06E12 20150729 [20150730-0200].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Aquarius S01E08 20150709 [20150710-0300].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Aquarius
+INFO:root:= Season: 01
+INFO:root:= Episode: E08
+INFO:root: ===
+INFO:root:Episode Aquarius S01E08 20150709 [20150710-0300].mpg for Season Season 01 does not exist in show Aquarius for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Aquarius S01E08 20150709 [20150710-0300].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Under the Dome S03E07 20150730 [20150731-0400].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Under the Dome
+INFO:root:= Season: 03
+INFO:root:= Episode: E07
+INFO:root: ===
+INFO:root:Episode Under the Dome S03E07 20150730 [20150731-0400].mpg for Season Season 03 does not exist in show Under the Dome for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Under the Dome S03E07 20150730 [20150731-0400].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF178 20150804 [20150805-0535].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: The Tonight Show Starring Jimmy Fallon
+INFO:root:= Season: 02
+INFO:root:= Episode: E120
+INFO:root: ===
+INFO:root:Episode The Tonight Show Starring Jimmy Fallon AF178 20150804 [20150805-0535].mpg for Season Season 02 does not exist in show The Tonight Show Starring Jimmy Fallon for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF178 20150804 [20150805-0535].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Mistresses S03E06 20150716 [20150717-0300].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Mistresses
+INFO:root:= Season: 03
+INFO:root:= Episode: E06
+INFO:root: ===
+INFO:root:Episode Mistresses S03E06 20150716 [20150717-0300].mpg for Season Season 03 does not exist in show Mistresses for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Mistresses S03E06 20150716 [20150717-0300].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Mistresses S03E09 20150806 [20150807-0300].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Mistresses
+INFO:root:= Season: 03
+INFO:root:= Episode: E09
+INFO:root: ===
+INFO:root:Episode Mistresses S03E09 20150806 [20150807-0300].mpg for Season Season 03 does not exist in show Mistresses for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Mistresses S03E09 20150806 [20150807-0300].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Under the Dome S03E04 20150709 [20150710-0400].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Under the Dome
+INFO:root:= Season: 03
+INFO:root:= Episode: E04
+INFO:root: ===
+INFO:root:Episode Under the Dome S03E04 20150709 [20150710-0400].mpg for Season Season 03 does not exist in show Under the Dome for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Under the Dome S03E04 20150709 [20150710-0400].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF182 20150810 [20150811-0535].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: The Tonight Show Starring Jimmy Fallon
+INFO:root:= Season: 02
+INFO:root:= Episode: E124
+INFO:root: ===
+INFO:root:Episode The Tonight Show Starring Jimmy Fallon AF182 20150810 [20150811-0535].mpg for Season Season 02 does not exist in show The Tonight Show Starring Jimmy Fallon for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF182 20150810 [20150811-0535].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Aquarius S01E10 20150725 [20150726-0300].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Aquarius
+INFO:root:= Season: 01
+INFO:root:= Episode: E10
+INFO:root: ===
+INFO:root:Episode Aquarius S01E10 20150725 [20150726-0300].mpg for Season Season 01 does not exist in show Aquarius for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Aquarius S01E10 20150725 [20150726-0300].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Aquarius S01E12 20150808 [20150809-0300].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Aquarius
+INFO:root:= Season: 01
+INFO:root:= Episode: E12
+INFO:root: ===
+INFO:root:Episode Aquarius S01E12 20150808 [20150809-0300].mpg for Season Season 01 does not exist in show Aquarius for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Aquarius S01E12 20150808 [20150809-0300].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/MasterChef S06E10 20150715 [20150716-0200].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: MasterChef
+INFO:root:= Season: 06
+INFO:root:= Episode: E10
+INFO:root: ===
+INFO:root:Episode MasterChef S06E10 20150715 [20150716-0200].mpg for Season Season 06 does not exist in show MasterChef for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/MasterChef S06E10 20150715 [20150716-0200].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF180 20150806 [20150807-0535].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: The Tonight Show Starring Jimmy Fallon
+INFO:root:= Season: 02
+INFO:root:= Episode: E122
+INFO:root: ===
+INFO:root:Episode The Tonight Show Starring Jimmy Fallon AF180 20150806 [20150807-0535].mpg for Season Season 02 does not exist in show The Tonight Show Starring Jimmy Fallon for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF180 20150806 [20150807-0535].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Aquarius S01E11 20150801 [20150802-0300].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Aquarius
+INFO:root:= Season: 01
+INFO:root:= Episode: E11
+INFO:root: ===
+INFO:root:Episode Aquarius S01E11 20150801 [20150802-0300].mpg for Season Season 01 does not exist in show Aquarius for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Aquarius S01E11 20150801 [20150802-0300].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Mistresses S03E07 20150723 [20150724-0300].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Mistresses
+INFO:root:= Season: 03
+INFO:root:= Episode: E07
+INFO:root: ===
+INFO:root:Episode Mistresses S03E07 20150723 [20150724-0300].mpg for Season Season 03 does not exist in show Mistresses for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Mistresses S03E07 20150723 [20150724-0300].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Aquarius S01E09 20150718 [20150717-0300].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: Aquarius
+INFO:root:= Season: 01
+INFO:root:= Episode: E09
+INFO:root: ===
+INFO:root:Episode Aquarius S01E09 20150718 [20150717-0300].mpg for Season Season 01 does not exist in show Aquarius for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/Aquarius S01E09 20150718 [20150717-0300].mpg
+INFO:root:-----------------------------------------------
+INFO:root:Parsing: /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF183 20150811 [20150812-0535].mpg
+INFO:root:=== Extracted: 
+INFO:root:= show: The Tonight Show Starring Jimmy Fallon
+INFO:root:= Season: 02
+INFO:root:= Episode: E125
+INFO:root: ===
+INFO:root:Episode The Tonight Show Starring Jimmy Fallon AF183 20150811 [20150812-0535].mpg for Season Season 02 does not exist in show The Tonight Show Starring Jimmy Fallon for path /share/CACHEDEV1_DATA/Public/HDHomeRun/archive/
+INFO:root:Completed for : /share/CACHEDEV1_DATA/Public/HDHomeRun/recordings/The Tonight Show Starring Jimmy Fallon AF183 20150811 [20150812-0535].mpg
+INFO:root:------------------------------------------------------------
+INFO:root:-              HDHR TS MetaData Tool Complete              -
+INFO:root:-                   2015-08-11 23:26:30                    -
+INFO:root:------------------------------------------------------------
