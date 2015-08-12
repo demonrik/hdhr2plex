@@ -83,9 +83,15 @@ class PlexTools:
     def move_episode_to_plex(self, plexpath,show,season,filename):
         if not os.path.exists(os.path.join(plexpath, show, season)):
             return False
+        # does link already exists
+        # move file
+        # TODO: rename file to include SxxExx if not already existing
+        # return final file location
         
     def link_episode_to_dvr(self, plexpath,show,season,filename):
         if not os.path.exists(os.path.join(plexpath, show, season)):
             return False
+        # does link already exist
+        # link file back to DVR folder
 
 

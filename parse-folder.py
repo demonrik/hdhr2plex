@@ -49,12 +49,7 @@ def extract_metadata(metadata):
     season = md.get_season_string(show,epNumber,epAirDate,epTitle)
     episode = md.get_episode_string(show,epNumber,epAirDate,epTitle)
 
-    logging.info('=== Extracted: ')
-    logging.info('= show: ' + show)
-    logging.info('= Season: ' + season)
-    logging.info('= Episode: ' + episode)
-    logging.info(' ===')
-    
+    logging.info('=== Extracted: show [' + show + '] Season [' + season + '] Episode: [' + episode +']')
     return {'show':show, 'season':season}
 
 def update_plex(plexpath, show, season, filename):
@@ -67,11 +62,9 @@ def update_plex(plexpath, show, season, filename):
         plex.move_episode_to_plex(plexpath,show,season,f)
         plex.link_episode_to_dvr(plexpath,show,season,f)
 
-
 if __name__ == "__main__":
     
     tools = scripttools.ScriptTools()
-
     if tools.isInteractive():
         print 'Interactive mode not supported at this time... exiting...'
         sys.exit(0)
