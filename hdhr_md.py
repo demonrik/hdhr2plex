@@ -14,7 +14,7 @@ class HDHomeRunMD:
 
     def print_metaData(self):
         for md in self.metaData:
-            logging.debug(md[0].replace('"',""), '|', md[1].replace('"',""))
+            logging.debug(md[0].replace('\"',"") + '|' + md[1].replace('\"',""))
     
     def extract_show(self):
         for md in self.metaData:
@@ -47,7 +47,7 @@ class HDHomeRunMD:
             for series in show:
                 seriesdata = tvdb[showname][series]
                 for ep in seriesdata:
-                    epData = tvdb[showname][series][ep]
+                    epData = seriesdata[ep]
                     ep_date = datetime.datetime.strptime(epData['firstaired'],'%Y-%m-%d')
                     check_date = datetime.datetime.utcfromtimestamp(int(epAirdate))
                     if ep_date == check_date:
@@ -67,7 +67,7 @@ class HDHomeRunMD:
             for season in show:
                 seasondata = tvdb[showname][season]
                 for ep in seasondata:
-                    epData = tvdb[showname][season][ep]
+                    epData = seasondata[ep]
                     ep_date = datetime.datetime.strptime(epData['firstaired'],'%Y-%m-%d')
                     check_date = datetime.datetime.utcfromtimestamp(int(epAirdate))
                     if ep_date == check_date:

@@ -18,7 +18,9 @@ AUTO_DELETE = False
 HDHR_TS_METADATA_PID = 0x1FFA
 
 def get_files_in_dir(path):
-    return [os.path.join(path,f) for f in os.listdir(path) if os.path.isfile(os.path.join(path,f)) & f.endswith('.mpg')]
+    return [os.path.join(path,f) for f in os.listdir(path) \
+           if (not os.path.islink(os.path.join(path,f))) & os.path.isfile(os.path.join(path,f)) \
+              & f.endswith('.mpg')]
 
 def parse_file_for_data(filename):
     parser = hdhr_tsparser.TSParser(filename)
@@ -50,17 +52,17 @@ def extract_metadata(metadata):
     episode = md.get_episode_string(show,epNumber,epAirDate,epTitle)
 
     logging.info('=== Extracted: show [' + show + '] Season [' + season + '] Episode: [' + episode +']')
-    return {'show':show, 'season':season}
+    return {'show':show, 'season':season, 'epnum':episode, 'eptitle':epTitle}
 
-def update_plex(plexpath, show, season, filename):
+def update_plex(dvrpath, plexpath, show, season, epnum, eptitle, filename):
     plex = plextools.PlexTools(plexpath)
     if plex.check_file_exists_in_plex(plexpath,show,season,os.path.basename(f)):
         logging.info( f + ' already exists in plex folder')
         # TODO: make sure a link exists, if not - add to duplicates list
     else:
         plex.add_season_to_plex(plexpath,show,('Season '+ season))
-        plex.move_episode_to_plex(plexpath,show,season,f)
-        plex.link_episode_to_dvr(plexpath,show,season,f)
+        plex.move_episode_to_plex(plexpath,show,season,epnum,eptitle,f)
+        plex.link_episode_to_dvr(dvrpath,plexpath,show,season,epnum,eptitle,f)
 
 if __name__ == "__main__":
     
@@ -73,7 +75,6 @@ if __name__ == "__main__":
     logging.info('-                  HDHR TS MetaData Tool                   -')
     logging.info('-                   '+strftime("%Y-%m-%d %H:%M:%S")+'                    -')
     logging.info('------------------------------------------------------------')
-    
     files = get_files_in_dir(tools.get_dvr_path())
     
     for f in files:
@@ -82,7 +83,10 @@ if __name__ == "__main__":
         logging.info('Parsing: ' + f)
         metaData = parse_file_for_data(f)
         md = extract_metadata(metaData)
-        update_plex(tools.get_plex_path(),md['show'],md['season'],f)
+        if md['eptitle']:
+            update_plex(tools.get_dvr_path(),tools.get_plex_path(),md['show'],md['season'],md['epnum'],md['eptitle'],f)
+        else:
+            update_plex(tools.get_dvr_path(),tools.get_plex_path(),md['show'],md['season'],md['epnum'],'',f)
         logging.info('Completed for : ' + f)
 
     logging.info('------------------------------------------------------------')

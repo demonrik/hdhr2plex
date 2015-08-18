@@ -3,6 +3,8 @@
 #-------------------------------------------------------------------------------
 import os
 import logging
+import shutil
+import platform
 
 class PlexTools:
     def __init__(self, plexpath):
@@ -80,18 +82,45 @@ class PlexTools:
             logging.info('Adding ' + season +  ' to ' + show + ' in ' + plexpath)
             os.makedirs(os.path.join(plexpath,show, season))
     
-    def move_episode_to_plex(self, plexpath,show,season,filename):
-        if not os.path.exists(os.path.join(plexpath, show, season)):
+    def fix_filename(self, show, season, epnum, eptitle):
+        return show + ' - S' + season + epnum + ' - ' + eptitle + '.mpg'
+    
+    def move_episode_to_plex(self, plexpath,show,season,epnum,eptitle,filename):
+        if not os.path.exists(os.path.join(plexpath, show, 'Season ' + season)):
+            logging.debug('Can\'t move episode - [' + os.path.join(plexpath, show, 'Season ' + season) + '] doesn\'t exist')
             return False
         # does link already exists
+        # renaming output filename
+        outfile =  self.fix_filename(show, season, epnum, eptitle)
+        logging.info('Renaming moved file to: ' + outfile)
+        # TODO: does file already exist?
         # move file
+        logging.info('Moving [' + filename + '] to [' + os.path.join(plexpath, show, 'Season ' + season, outfile))
+        if platform.system() == 'Windows':
+            logging.warn('Moving is not supported at this time on Windows')
+        else:
+            logging.info('Doing the Move')
+            shutil.move(filename,os.path.join(plexpath, show, 'Season ' + season, outfile))
+
         # TODO: rename file to include SxxExx if not already existing
         # return final file location
         
-    def link_episode_to_dvr(self, plexpath,show,season,filename):
-        if not os.path.exists(os.path.join(plexpath, show, season)):
+    def link_episode_to_dvr(self, dvrpath, plexpath,show,season,epnum,eptitle,filename):
+        if not os.path.exists(os.path.join(plexpath, show, 'Season ' + season)):
+            logging.debug('Can\'t Link episode - [' + os.path.join(plexpath, show, 'Season ' + season) + '] doesn\'t exist')
             return False
         # does link already exist
+        # create relative link if possible
+        common_path = os.path.commonprefix([dvrpath, plexpath])
+        rel_plex_path = os.path.relpath(plexpath,dvrpath)
+        logging.info('Identified common path in files: '+common_path)
+        logging.info('Updating Plex Path to: '+rel_plex_path)
         # link file back to DVR folder
+        logging.info('Linking [' + os.path.join(rel_plex_path, show, 'Season ' + season, self.fix_filename(show, season, epnum, eptitle)) + '] to [' + filename )
+        if platform.system() == 'Windows':
+            logging.warn('Linking is not supported at this time on Windows')
+        else:
+            logging.info('Doing the link')
+            os.symlink(os.path.join(rel_plex_path, show, 'Season ' + season, self.fix_filename(show, season, epnum, eptitle)),filename)
 
 
