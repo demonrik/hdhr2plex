@@ -65,32 +65,34 @@ def update_plex(dvrpath, plexpath, show, season, epnum, eptitle, filename):
         plex.link_episode_to_dvr(dvrpath,plexpath,show,season,epnum,eptitle,f)
 
 if __name__ == "__main__":
-    
-    tools = scripttools.ScriptTools()
-    if tools.isInteractive():
-        print 'Interactive mode not supported at this time... exiting...'
-        sys.exit(0)
-
-    logging.info('------------------------------------------------------------')
-    logging.info('-                  HDHR TS MetaData Tool                   -')
-    logging.info('-                   '+strftime("%Y-%m-%d %H:%M:%S")+'                    -')
-    logging.info('------------------------------------------------------------')
-    files = get_files_in_dir(tools.get_dvr_path())
-    
-    for f in files:
-        metaData = []
-        logging.info('-----------------------------------------------')
-        logging.info('Parsing: ' + f)
-        metaData = parse_file_for_data(f)
-        md = extract_metadata(metaData)
-        if md['eptitle']:
-            update_plex(tools.get_dvr_path(),tools.get_plex_path(),md['show'],md['season'],md['epnum'],md['eptitle'],f)
-        else:
-            update_plex(tools.get_dvr_path(),tools.get_plex_path(),md['show'],md['season'],md['epnum'],'',f)
-        logging.info('Completed for : ' + f)
-
-    logging.info('------------------------------------------------------------')
-    logging.info('-              HDHR TS MetaData Tool Complete              -')
-    logging.info('-                   '+strftime("%Y-%m-%d %H:%M:%S")+'                    -')
-    logging.info('------------------------------------------------------------')
+    print 'This script no longer works since SiliconDust updated the DVR to record to subdirs'
+    print 'I am leaving it here in the repo as an aid should I or anyone else need to look at'
+    print 'it again'
+#    tools = scripttools.ScriptTools()
+#    if tools.isInteractive():
+#        print 'Interactive mode not supported at this time... exiting...'
+#        sys.exit(0)
+#
+#    logging.info('------------------------------------------------------------')
+#    logging.info('-                  HDHR TS MetaData Tool                   -')
+#    logging.info('-                   '+strftime("%Y-%m-%d %H:%M:%S")+'                    -')
+#    logging.info('------------------------------------------------------------')
+#    files = get_files_in_dir(tools.get_dvr_path())
+#    
+#    for f in files:
+#        metaData = []
+#        logging.info('-----------------------------------------------')
+#        logging.info('Parsing: ' + f)
+#        metaData = parse_file_for_data(f)
+#        md = extract_metadata(metaData)
+#        if md['eptitle']:
+#            update_plex(tools.get_dvr_path(),tools.get_plex_path(),md['show'],md['season'],md['epnum'],md['eptitle'],f)
+#        else:
+#            update_plex(tools.get_dvr_path(),tools.get_plex_path(),md['show'],md['season'],md['epnum'],'',f)
+#        logging.info('Completed for : ' + f)
+#
+#    logging.info('------------------------------------------------------------')
+#    logging.info('-              HDHR TS MetaData Tool Complete              -')
+#    logging.info('-                   '+strftime("%Y-%m-%d %H:%M:%S")+'                    -')
+#    logging.info('------------------------------------------------------------')
 
