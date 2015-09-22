@@ -37,7 +37,7 @@ class ScriptTools:
     
         if self.args.config:
             if os.path.exists(self.args.config): 
-                parse_config_file(self.args,None)
+                self.parse_config_file(None)
             else:
                 print "Config file specified not found - " + self.args.config
                 self.interactive = True
