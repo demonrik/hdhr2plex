@@ -22,6 +22,9 @@ hdhr_cfg_skip_shows = 'skipshows'
 hdhr_cfg_loglevel = 'loglevel'
 hdhr_cfg_logfile = 'logfile'
 hdhr_cfg_autodelete = 'autodelete'
+hdhr_cfg_renameDir = 'renamedir'
+hdhr_cfg_renameFile = 'renamefile'
+hdhr_cfg_forceUpdate = 'forceupdate'
 
 class ScriptTools:
 
@@ -29,6 +32,9 @@ class ScriptTools:
         self.interactive = False
         self.dvr_path = ''
         self.plex_path = ''
+        self.renameDir = False
+        self.renameFile = False
+        self.force = False
 
         arg_parser = argparse.ArgumentParser(description='Process command line args')
         for n in hdhr_args_list:
@@ -86,6 +92,27 @@ class ScriptTools:
             if not self.plex_path.endswith(os.sep):
                 self.plex_path+=os.sep
             print 'Processing Plex files from: ', self.plex_path
+
+            if sections[hdhr_cfg_main][hdhr_cfg_renameDir]:
+                if sections[hdhr_cfg_main][hdhr_cfg_renameDir] == 'True':
+                    self.renameDir = True
+                else:
+                    self.renameDir = False
+            print 'Rename Directory to match TVDB show name: ', self.renameDir
+
+            if sections[hdhr_cfg_main][hdhr_cfg_renameFile]:
+                if sections[hdhr_cfg_main][hdhr_cfg_renameFile] == 'True':
+                    self.renameFile = True
+                else:
+                    self.renameFile = False
+            print 'Rename Files Enabled: ', self.renameFile
+
+            if sections[hdhr_cfg_main][hdhr_cfg_forceUpdate]:
+                if sections[hdhr_cfg_main][hdhr_cfg_forceUpdate] == 'True':
+                    self.force = True
+                else:
+                    self.force = False
+            print 'Force Updates Enabled: ', self.force
             
             # Extract Logging Information
             loglevel = 'warning'
@@ -120,3 +147,12 @@ class ScriptTools:
 
     def isInteractive(self):
         return self.interactive
+        
+    def fileRename(self):
+        return self.renameFile
+
+    def dirRename(self):
+        return self.renameDir
+
+    def forceEnabled(self):
+        return self.force

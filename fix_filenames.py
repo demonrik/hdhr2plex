@@ -53,17 +53,24 @@ def extract_metadata(metadata):
     epNumber = md.extract_epNumber()
     epAirDate = md.extract_epAirDate()
     epTitle = md.extract_epTitle()
-    season = md.get_season_string(show,epNumber,epAirDate,epTitle)
-    episode = md.get_episode_string(show,epNumber,epAirDate,epTitle)
-
+    
+    tvdbEpData = md.getTVDBInfo(show,epAirDate)
+    season = md.resolve_season_string(epNumber,tvdbEpData['season_num'],tvdbEpData['episode_num'])
+    episode = md.resolve_season_string(epNumber,tvdbEpData['season_num'],tvdbEpData['episode_num'])
+    
     logging.info('=== Extracted: show [' + show + '] Season [' + season + '] Episode: [' + episode +']')
-    return {'show':show, 'season':season, 'epnum':episode, 'eptitle':epTitle}
+    return {'show':show, 'season':season, 'epnum':episode, 'eptitle':epTitle, 'tvdbname':tvdbEpData['seriesname']}
+
+def fix_title(epTitle):
+    newTitle = str.replace(epTitle,'/','_')
+    return newTitle
 
 def fix_filename(show, season, episode, epTitle):
-    if epTitle == '':
+    newTitle = fix_title(epTitle)
+    if newTitle == '':
         return show + '-S' + season + 'E' + episode + '.mpg'
     else:
-        return show + '-S' + season + 'E' + episode + '-' + epTitle + '.mpg'
+        return show + '-S' + season + 'E' + episode + '-' + newTitle + '.mpg'
 
 def is_already_fixed(filename):
     # Checking file is form of    <show>-S<season number>E<episode number>[- title]
@@ -80,16 +87,29 @@ def is_already_fixed(filename):
                 return True
     return False
 
-def rename_episode(filename, show, season, episode, epTitle):
+
+def rename_episode(filename, show, season, episode, epTitle, renameDir, force):
     if not epTitle:
         epTitle = ''
     logging.info('Renaming '+ filename + ' to ' + show + '-S' + season + 'E' + episode + '-' + epTitle)
     base_name = os.path.basename(filename)
+
     # shouldn't need to recheck, but may as well..
-    if base_name == fix_filename(show, season, episode, epTitle):
+    if (base_name == fix_filename(show, season, episode, epTitle)) & (not force):
         logging.warn('Filename '+ base_name + ' already fixed')
     else:
         dir_name = os.path.dirname(filename)
+        if renameDir:
+            parentDir = os.path.dirname(dir_name)
+            oldShowDir = os.path.basename(dir_name)
+            logging.debug('parent path: [' + parentDir + '] with show [' + oldShowDir + '] comparing to [' + show + ']')
+            if not oldShowDir == show:
+                dir_name = os.path.join(parentDir, show)
+                logging.debug('Setting output path to: ' + dir_name)
+                if not os.path.exists(dir_name):
+                    logging.debug(' Creating new folders for: ' + dir_name)
+                    os.makedirs(dir_name)
+
         new_name = os.path.join(dir_name, fix_filename(show, season, episode, epTitle))
         logging.debug('replacing ' + filename + ' with ' + new_name)
         os.rename(filename,new_name)
@@ -98,7 +118,7 @@ if __name__ == "__main__":
     files = []
     episodes = []
     tools = scripttools.ScriptTools()
-    if tools.isInteractive():
+    if tools.isInteractive() == True:
         print 'Interactive mode not supported at this time... exiting...'
         sys.exit(0)
 
@@ -112,7 +132,7 @@ if __name__ == "__main__":
         files.extend(episodes)
     
     for f in files:
-        if is_already_fixed(f):
+        if is_already_fixed(f) & (not tools.forceEnabled()):
             logging.info('SKIPPING: Already fixed ' + f)
             continue
         metaData = []
@@ -120,7 +140,14 @@ if __name__ == "__main__":
         logging.info('Parsing: ' + f)
         metaData = parse_file_for_data(f)
         md = extract_metadata(metaData)
-        rename_episode(f,md['show'],md['season'],md['epnum'],md['eptitle'])
+        if tools.dirRename:
+            logging.info('Setting showname to: ' + md['tvdbname'])
+            showname = md['tvdbname']
+        else:
+            logging.info('Setting showname to: ' + md['show'])
+            showname = md['show']
+        
+        rename_episode(f,showname,md['season'],md['epnum'],md['eptitle'],tools.dirRename(), tools.forceEnabled())
         logging.info('Completed for : ' + f)
 
     logging.info('------------------------------------------------------------')
