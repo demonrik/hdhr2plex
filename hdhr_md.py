@@ -83,7 +83,7 @@ class HDHomeRunMD:
             season_str = tvdbSeasonNum
         return season_str
 
-    def resolve_season_string(self, epNumber, tvdbSeasonNum, tvdbEpisodeNum):
+    def resolve_episode_string(self, epNumber, tvdbSeasonNum, tvdbEpisodeNum):
         episode_str = '00'
         if epNumber and epNumber[3] == 'E':
             episode_str = epNumber[4:6]

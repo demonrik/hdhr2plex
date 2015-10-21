@@ -56,7 +56,7 @@ def extract_metadata(metadata):
     
     tvdbEpData = md.getTVDBInfo(show,epAirDate)
     season = md.resolve_season_string(epNumber,tvdbEpData['season_num'],tvdbEpData['episode_num'])
-    episode = md.resolve_season_string(epNumber,tvdbEpData['season_num'],tvdbEpData['episode_num'])
+    episode = md.resolve_episode_string(epNumber,tvdbEpData['season_num'],tvdbEpData['episode_num'])
     
     logging.info('=== Extracted: show [' + show + '] Season [' + season + '] Episode: [' + episode +']')
     return {'show':show, 'season':season, 'epnum':episode, 'eptitle':epTitle, 'tvdbname':tvdbEpData['seriesname']}
