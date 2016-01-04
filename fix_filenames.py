@@ -45,6 +45,11 @@ def parse_file_for_data(filename):
                 break
     return parser.extract_metadata(tempMD)
 
+def isSpecialShow(showname):
+    if showname.lower() == 'Masterpiece'.lower():
+        return True
+    return False
+
 def extract_metadata(metadata):
     md = hdhr_md.HDHomeRunMD(metadata)
     md.print_metaData()
@@ -54,12 +59,18 @@ def extract_metadata(metadata):
     epAirDate = md.extract_epAirDate()
     epTitle = md.extract_epTitle()
     
-    tvdbEpData = md.getTVDBInfo(show,epAirDate)
-    season = md.resolve_season_string(epNumber,tvdbEpData['season_num'],tvdbEpData['episode_num'])
-    episode = md.resolve_episode_string(epNumber,tvdbEpData['season_num'],tvdbEpData['episode_num'])
-    
-    logging.info('=== Extracted: show [' + show + '] Season [' + season + '] Episode: [' + episode +']')
-    return {'show':show, 'season':season, 'epnum':episode, 'eptitle':epTitle, 'tvdbname':tvdbEpData['seriesname']}
+    # Need to workaround some bad titles that US TV and thetvdb.com are in conflict for.
+    if not isSpecialShow(show):
+        tvdbEpData = md.getTVDBInfo(show,epAirDate)
+        season = md.resolve_season_string(epNumber,tvdbEpData['season_num'],tvdbEpData['episode_num'])
+        episode = md.resolve_episode_string(epNumber,tvdbEpData['season_num'],tvdbEpData['episode_num'])
+        logging.info('=== Extracted: show [' + show + '] Season [' + season + '] Episode: [' + episode +']')
+        return {'show':show, 'season':season, 'epnum':episode, 'eptitle':epTitle, 'tvdbname':tvdbEpData['seriesname']}
+    else:
+        logging.debug('*** Show [' + show + '] marked for special handling - and will not use theTvDb.com')
+        season = '-'
+        episode = epNumber
+        return {'show':show, 'season':season, 'epnum':episode, 'eptitle':epTitle, 'tvdbname':show}
 
 def fix_title(epTitle):
     newTitle = str.replace(epTitle,'/','_')
