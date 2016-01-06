@@ -62,7 +62,6 @@ class ScriptTools:
         global logging
         global dvr_path
         global plex_path
-        global skip_list
         
         config = ConfigParser.ConfigParser()
         if self.args.config: 
@@ -113,6 +112,10 @@ class ScriptTools:
                 else:
                     self.force = False
             print 'Force Updates Enabled: ', self.force
+
+            if sections[hdhr_cfg_main][hdhr_cfg_skip_shows]:
+                self.skip_list = sections[hdhr_cfg_main][hdhr_cfg_skip_shows]
+                print 'Setting up Skip Shows: ', self.skip_list
             
             # Extract Logging Information
             loglevel = 'warning'
@@ -138,6 +141,9 @@ class ScriptTools:
                     logging.basicConfig(stream=sys.stdout,
                                         level=LOGLEVELS.get(loglevel, logging.WARNING))
             print 'Logging to: ', logfile
+
+    def get_skip_shows(self):
+        return self.skip_list
     
     def get_dvr_path(self):
         return self.dvr_path

@@ -7,6 +7,7 @@ import os
 import platform
 import logging
 import sys
+import re
 import time
 from time import strftime
 import hdhr_tsparser
@@ -15,6 +16,7 @@ import hdhr_md
 import scripttools
 
 HDHR_TS_METADATA_PID = 0x1FFA
+shows2skip = {}
 
 # QNAP NAS adds thumbnails with it's media scanner - so will skip that dir
 # TODO: Make skip dirs configurable
@@ -46,8 +48,13 @@ def parse_file_for_data(filename):
     return parser.extract_metadata(tempMD)
 
 def isSpecialShow(showname):
-    if showname.lower() == 'Masterpiece'.lower():
-        return True
+	  
+    if not shows2skip:
+        return False
+    for show in shows2skip:
+        if showname.lower() == show.replace('"','').lower():
+            logging.debug('Skip show found ' + showname)
+            return True
     return False
 
 def extract_metadata(metadata):
@@ -91,6 +98,11 @@ def is_already_fixed(filename):
     show_file, file_ext = os.path.splitext(filename)
     base_name = os.path.basename(show_file)
     parts = base_name.split('-')
+    
+    regexPatSearch = re.compile(r'-S\d\dE\d\d-')
+    if regexPatSearch.search(filename):
+        logging.debug('Matched SxxExx in filename: ' + filename)
+    
     if len(parts) >= 2:
         logging.debug(base_name + 'contains 2 or greater parts, might be fixed')
         for x in range(len(parts)):
@@ -140,9 +152,13 @@ if __name__ == "__main__":
     logging.info('-                   '+strftime("%Y-%m-%d %H:%M:%S")+'                    -')
     logging.info('------------------------------------------------------------')
     shows = get_shows_in_dir(tools.get_dvr_path())
+
     for show in shows:
         episodes = get_episodes_in_show(show)
         files.extend(episodes)
+
+    shows2skip = tools.get_skip_shows().split(',')
+    logging.debug('Skip Shows ' + str(shows2skip))
     
     for f in files:
         if is_already_fixed(f) & (not tools.forceEnabled()):
