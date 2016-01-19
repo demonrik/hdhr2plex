@@ -68,9 +68,9 @@ def extract_metadata(metadata):
     
     # Need to workaround some bad titles that US TV and thetvdb.com are in conflict for.
     if not isSpecialShow(show):
-        tvdbEpData = md.getTVDBInfo(show,epAirDate)
-        season = md.resolve_season_string(epNumber,tvdbEpData['season_num'],tvdbEpData['episode_num'])
-        episode = md.resolve_episode_string(epNumber,tvdbEpData['season_num'],tvdbEpData['episode_num'])
+        tvdbEpData = md.getTVDBInfo(show,epAirDate,epTitle,epNumber)
+        season = tvdbEpData['season_num']
+        episode = tvdbEpData['episode_num']
         logging.info('=== Extracted: show [' + show + '] Season [' + season + '] Episode: [' + episode +']')
         return {'show':show, 'season':season, 'epnum':episode, 'eptitle':epTitle, 'tvdbname':tvdbEpData['seriesname'], 'special':False}
     else:
@@ -81,10 +81,12 @@ def fix_title(epTitle):
     newTitle = str.replace(epTitle,'/','_')
     return newTitle
 
-def fix_filename(show, season, episode, epTitle,special):
+def fix_filename(show, season, episode, epTitle, special):
     basename = show + '-' + episode
     if not special:
         basename = show + '-S' + season + 'E' + episode
+
+    logging.info('Renaming '+ filename + ' to ' basename)
 
     newTitle = fix_title(epTitle)
     if newTitle == '':
@@ -93,30 +95,19 @@ def fix_filename(show, season, episode, epTitle,special):
         return basename + '-' + newTitle + '.mpg'
 
 def is_already_fixed(filename):
-    # Checking file is form of    <show>-S<season number>E<episode number>[- title]
+    # Checking file is form of <show>-S<season number>E<episode number>[- title]
     # where title is optional, but must have show, season and episode numbers
-    show_file, file_ext = os.path.splitext(filename)
-    base_name = os.path.basename(show_file)
-    parts = base_name.split('-')
     
-    regexPatSearch = re.compile(r'-S\d\dE\d\d-')
+    regexPatSearch = re.compile(r'-S\d+E\d+-')
     if regexPatSearch.search(filename):
         logging.debug('Matched SxxExx in filename: ' + filename)
+        return True
     
-    if len(parts) >= 2:
-        logging.debug(base_name + 'contains 2 or greater parts, might be fixed')
-        for x in range(len(parts)):
-            if parts[x][0] == 'S':
-                logging.debug(base_name + 'Contains an S indicator for season - looking good')
-                if parts[x][3] == 'E':
-                    logging.debug(base_name + 'Contains an E indicator for episode - looking like it is fixed already')
-                    return True
     return False
 
 def rename_episode(filename, show, season, episode, epTitle, special, renameDir, force):
     if not epTitle:
         epTitle = ''
-    logging.info('Renaming '+ filename + ' to ' + show + '-S' + season + 'E' + episode + '-' + epTitle)
     base_name = os.path.basename(filename)
 
     # shouldn't need to recheck, but may as well..

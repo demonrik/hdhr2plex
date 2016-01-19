@@ -21,6 +21,11 @@ class HDHomeRunMD:
         for md in self.metaData:
             if md[0] == '"DisplayGroupTitle"' :
                 return md[1].replace('"',"")
+
+    def extract_subshow(self):
+        for md in self.metaData:
+            if md[0] == '"DisplayGroupTitle"' :
+                return md[1].replace('"',"")
             
     def extract_epNumber(self):
         for md in self.metaData:
@@ -70,23 +75,8 @@ class HDHomeRunMD:
         # fail safe - return what we have - even if not complete
         return {'seriesname':seriesname, 'season_num':str(season).zfill(2), 'episode_num':str(episodeNum).zfill(2)}
 
-    def getTVDBInfo(self, showname, epAirdate) :
+    def getTVDBInfo(self, showname, epAirdate, epTitle, epNumber) :
         logging.debug('searching for [' + showname + '] [' + epAirdate + ']')
         epData = self.lookup_episode_bydate(showname, epAirdate)
         return {'seriesname':epData['seriesname'], 'season_num':epData['season_num'], 'episode_num':epData['episode_num']}
         	
-    def resolve_season_string(self, epNumber, tvdbSeasonNum, tvdbEpisodeNum):
-        season_str = '00'
-        if epNumber and epNumber[0] == 'S':
-            season_str = epNumber[1:3]
-        else:
-            season_str = tvdbSeasonNum
-        return season_str
-
-    def resolve_episode_string(self, epNumber, tvdbSeasonNum, tvdbEpisodeNum):
-        episode_str = '00'
-        if epNumber and epNumber[3] == 'E':
-            episode_str = epNumber[4:6]
-        else:
-            episode_str = tvdbEpisodeNum
-        return episode_str
