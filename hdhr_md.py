@@ -70,7 +70,6 @@ class HDHomeRunMD:
                         if ep_date == check_date:
                             logging.info('MATCHED Season [' + str(season) + '] Episode [' + str(ep) + ']')
                             epCandidates.append(epData)
-                            logging.debug(epData.keys())
                         else:
                             logging.debug('No match in ' + epData['episodenumber'] + ' for airdate ' + epAirdate)
         return epCandidates
