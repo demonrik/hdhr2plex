@@ -11,6 +11,7 @@ It uses the [thetvdb]([http://www.thetvdb.com]) for season and episode informati
 At this stage scripts are still in development and dependent on updates from SiliconDust.  
 The *parse-folder.py* is now parked once Silicondust added the feature for the DVR recorder to save to separate folders. I will hopefully get to this again soon.  
 The *fix_filenames.py* iterates through all the files in the HDHR recordings folder, scans the TS file for meta data and then does a look up on thetvdb for missing info before renaming the file to match Plex requirements (and optionally the folder).  
+The *create_mdonly.py* provides a simple script to take the output metadata from the logfiles and generate a valid MPG for testing.  
 
 **_Tested Platforms_**  
 QNAP-x51 with QTS 4.1.4/4.2  (linux)
@@ -19,6 +20,11 @@ QNAP-x51 with QTS 4.1.4/4.2  (linux)
 ```sh
 $ python fix-filenames.py --config <config file>
 ```
+```sh
+$ python ./create_mdonly.py <metadata file>
+```
+
+
 **_Config File_**  
 all the configuration details are stored in a section titled  [HDHR-DVR]
 the parameters include
