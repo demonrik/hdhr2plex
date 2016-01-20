@@ -86,8 +86,6 @@ def fix_filename(show, season, episode, epTitle, special):
     if not special:
         basename = show + '-S' + season + 'E' + episode
 
-    logging.info('Renaming '+ filename + ' to '  + basename)
-
     newTitle = fix_title(epTitle)
     if newTitle == '':
         return basename + '.mpg'
