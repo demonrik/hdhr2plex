@@ -41,8 +41,9 @@ class HDHomeRunMD:
         for md in self.metaData:
             if md[0] == '"OriginalAirdate"' :
                 return md[1].replace('"',"")
-
+     
     def lookup_episode_bydate(self, showname, epAirdate):
+        epCandidates = []
         logging.info('Finding Episode/Season details by showname and airdate')
         logging.debug('Connecting to theTVdb.com')
         tvdb = tvdb_api.Tvdb()
@@ -67,16 +68,39 @@ class HDHomeRunMD:
                         ep_date = datetime.datetime.strptime(epData['firstaired'],'%Y-%m-%d')
                         check_date = datetime.datetime.utcfromtimestamp(int(epAirdate))
                         if ep_date == check_date:
-                            logging.debug('MATCHED Season [' + str(season) + '] Episode [' + str(ep) + ']')
-                            episodeNum = epData['episodenumber']
-                            return {'seriesname':seriesname, 'season_num':str(season).zfill(2), 'episode_num':str(episodeNum).zfill(2)}
+                            logging.info('MATCHED Season [' + str(season) + '] Episode [' + str(ep) + ']')
+                            epCandidates.append(epData)
+                            logging.debug(epData.keys())
                         else:
                             logging.debug('No match in ' + epData['episodenumber'] + ' for airdate ' + epAirdate)
-        # fail safe - return what we have - even if not complete
-        return {'seriesname':seriesname, 'season_num':str(season).zfill(2), 'episode_num':str(episodeNum).zfill(2)}
+        return epCandidates
 
+    def getTVDBSeriesName(self, showname, seriesID):
+        logging.debug('Connecting to theTVdb.com')
+        tvdb = tvdb_api.Tvdb()
+        logging.debug('Finding the shows with the ID ' + seriesID)
+        allseries = tvdb.search(showname)
+        for x in range(len(allseries)):
+            if allseries[x]['seriesid'] == seriesID:
+                logging.debug('Found the show ' + allseries[x]['seriesname'] + ' matching with the ID ' + seriesID)
+                return allseries[x]['seriesname']
+        return ''
+        
     def getTVDBInfo(self, showname, epAirdate, epTitle, epNumber) :
         logging.debug('searching for [' + showname + '] [' + epAirdate + ']')
-        epData = self.lookup_episode_bydate(showname, epAirdate)
-        return {'seriesname':epData['seriesname'], 'season_num':epData['season_num'], 'episode_num':epData['episode_num']}
+        epData = {}
+        epCandidates = self.lookup_episode_bydate(showname, epAirdate)
+        numCandidates = len(epCandidates)
+        logging.debug('Found ' + str(numCandidates) + ' Candidates shows to check...')
+        if epCandidates >= 1:
+           for ep in epCandidates:
+               logging.debug(ep['seriesid'] + '|' + ep['seasonnumber'] + '|' + ep['episodenumber'] + '|' + ep['episodename'] + ' checking')
+               if epTitle == ep['episodename']:
+                   logging.info(ep['seasonnumber'] + '|' + ep['episodenumber'] + '|' + ep['episodename'] + ' is best match')
+                   epData.update(ep)
+                   seriesname = self.getTVDBSeriesName(showname, ep['seriesid']);
+           return {'seriesname':seriesname, 'season_num':str(epData['seasonnumber']).zfill(2), 'episode_num':str(epData['episodenumber']).zfill(2)}
+        # if nothing matched need to just return some dummy data
+        return {'seriesname':showname, 'season_num':'00', 'episode_num':epNumber}
+        
         	
