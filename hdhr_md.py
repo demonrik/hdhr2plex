@@ -89,6 +89,7 @@ class HDHomeRunMD:
     def getTVDBInfo(self, showname, epAirdate, epTitle, epNumber) :
         logging.debug('searching for [' + showname + '] [' + epAirdate + ']')
         epData = {}
+        seriesname = showname
         epCandidates = self.lookup_episode_bydate(showname, epAirdate)
         numCandidates = len(epCandidates)
         logging.debug('Found ' + str(numCandidates) + ' Candidates shows to check...')
@@ -99,8 +100,8 @@ class HDHomeRunMD:
                    logging.info(ep['seasonnumber'] + '|' + ep['episodenumber'] + '|' + ep['episodename'] + ' is best match')
                    epData.update(ep)
                    seriesname = self.getTVDBSeriesName(showname, ep['seriesid']);
-           return {'seriesname':seriesname, 'season_num':str(epData['seasonnumber']).zfill(2), 'episode_num':str(epData['episodenumber']).zfill(2)}
+           return {'seriesname':seriesname, 'season_num':str(ep['seasonnumber']).zfill(2), 'episode_num':str(ep['episodenumber']).zfill(2)}
         # if nothing matched need to just return some dummy data
-        return {'seriesname':showname, 'season_num':'00', 'episode_num':epNumber}
+        return {'seriesname':seriesname, 'season_num':'00', 'episode_num':epNumber}
         
         	
