@@ -36,10 +36,19 @@ loglevel:
 - logging level to use [debug, info, warn, error, critical]  
 
 dvrpath:  
-- Path to the HDHomerun DVR recordings (whatever you set RecordPath to)  
+- Path to the HDHomerun DVR recordings Folder (whatever you set RecordPath to)  
 
 plexpath:
-- Path to the where Plex will scan for the HDHomerun recordings
+- Path to the Folder where Plex will scan for the HDHomerun recordings
+
+link2plex:
+- Set to True to link the DVR file to your Plex folder. i.e. files are not to be exported to Plex Folder
+
+link2dvr:
+- Set to True to indicate that the script should move the file from the DVR folder to the Plex Folder, rename to meet the TVDB lookups and link the resulting file back to the DVR folder under the original filename
+
+metasave:
+- Set to True to indicate that the script should move the file from the DVR folder to the Plex Folder, rename to meet the TVDB lookups, but save the extracted meta data from the DVR file back to the DVR folder to prevent repeat recordings.
 
 renamefile:
 - Set to True to rename the file
@@ -50,5 +59,8 @@ renamedir:
 forceupdate:
 - force the script to update every file found - disables the skipping
 
-winaction:
-- Not implemented at this time
+skipshows:
+- A number of shows cause issues with thetvdb.com and will prevent matches, and thus cause strange behaviour with the script, or even crashes. If you encounter such a show add it here.
+The show name must be in double quotes, i.e. "Masterpiece"
+Separate each show with a comma, i.e. "Masterpeice","That other Show"
+

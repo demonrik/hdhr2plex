@@ -128,6 +128,22 @@ def rename_episode(filename, show, season, episode, epTitle, special, renameDir,
         logging.debug('replacing ' + filename + ' with ' + new_name)
         os.rename(filename,new_name)
 
+def move_to_plex(filename, plexpath, showname, season, episode, eptitle, special, force):
+    logging.info('Moving ' + f + ' to Plex at ' + plexpath)
+    return
+    
+def link_dvr_to_plex():
+    logging.info('linking DVR File to Plex')
+    return
+
+def link_plex_to_dvr():
+    logging.info('linking Plex File to DVR')
+    return
+    
+def save_min_metadata(f,metadata):
+    logging.info('Resaving metadata as ' + f)
+    return
+
 if __name__ == "__main__":
     files = []
     episodes = []
@@ -158,14 +174,22 @@ if __name__ == "__main__":
         logging.info('Parsing: ' + f)
         metaData = parse_file_for_data(f)
         md = extract_metadata(metaData)
-        if tools.dirRename:
+        if tools.dirRename():
             logging.info('Setting showname to: ' + md['tvdbname'])
             showname = md['tvdbname']
         else:
             logging.info('Setting showname to: ' + md['show'])
             showname = md['show']
         
-        rename_episode(f,showname,md['season'],md['epnum'],md['eptitle'],md['special'],tools.dirRename(), tools.forceEnabled())
+        if tools.get_plex_path() and tools.move2plex():
+            move_to_plex(f,tools.get_plex_path(),showname,md['season'],md['epnum'],md['eptitle'],md['special'],tools.forceEnabled())
+            if tools.link2dvr:
+                link_plex_to_dvr()
+            elif tools.saveMeta():
+                save_min_metadata(f,md)
+        else:
+            logging.info('Renaming ' + f)
+            rename_episode(f,showname,md['season'],md['epnum'],md['eptitle'],md['special'],tools.dirRename(), tools.forceEnabled())
         logging.info('Completed for : ' + f)
 
     logging.info('------------------------------------------------------------')
