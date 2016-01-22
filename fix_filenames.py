@@ -84,7 +84,7 @@ def fix_title(epTitle):
 def fix_filename(show, season, episode, epTitle, special):
     basename = show + '-' + episode
     if not special:
-        basename = show + '-S' + season + 'E' + episode
+        basename = show + '-S' + season + 'E' + episode + '-'
 
     newTitle = fix_title(epTitle)
     if newTitle == '':
