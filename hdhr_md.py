@@ -95,12 +95,12 @@ class HDHomeRunMD:
         if epCandidates >= 1:
            for ep in epCandidates:
                logging.debug(ep['seriesid'] + '|' + ep['seasonnumber'] + '|' + ep['episodenumber'] + '|' + ep['episodename'] + ' checking')
-               if epTitle == ep['episodename']:
+               if ((epTitle and (epTitle == ep['episodename']))
+                   or not epTitle):
                    logging.info(ep['seasonnumber'] + '|' + ep['episodenumber'] + '|' + ep['episodename'] + ' is best match')
                    epData.update(ep)
                    seriesname = self.getTVDBSeriesName(showname, ep['seriesid']);
                    return {'seriesname':seriesname, 'season_num':str(ep['seasonnumber']).zfill(2), 'episode_num':str(ep['episodenumber']).zfill(2)}
         # if nothing matched need to just return some dummy data
         return {'seriesname':seriesname, 'season_num':'00', 'episode_num':epNumber}
-        
-        	
+
