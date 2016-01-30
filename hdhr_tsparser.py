@@ -6,6 +6,7 @@ import struct
 import binascii
 import ctypes
 import io
+import logging
 
 class TSParser:
     def __init__(self, filename):
@@ -62,5 +63,5 @@ class TSParser:
             # Now to create the tuple list
             mdTuples = mdString.split('|')
             for t in mdTuples:
-                metaData.append(t.split(','))
+                metaData.append(t.split(',',1))
         return metaData

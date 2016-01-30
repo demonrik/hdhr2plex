@@ -8,10 +8,11 @@ import platform
 import logging
 import sys
 import re
+import shutil
 import time
 from time import strftime
 import hdhr_tsparser
-import plextools
+import hdhr_tswriter
 import hdhr_md
 import scripttools
 
@@ -130,6 +131,33 @@ def rename_episode(filename, show, season, episode, epTitle, special, renameDir,
 
 def move_to_plex(filename, plexpath, showname, season, episode, eptitle, special, force):
     logging.info('Moving ' + f + ' to Plex at ' + plexpath)
+    create_show = False
+    create_season = False
+    dir_name = os.path.dirname(filename)
+    plexFileName = fix_filename(showname, season, episode, eptitle, special)
+    seasonDir = 'Season ' + season
+    
+    
+    # Verify the plex path exists
+    if not os.path.exists(plexpath):
+        logging.error('Plex path is not valid, exiting: ' + plexpath)
+        exit(0);
+    # Verify the show exists
+    if not os.path.exists(os.path.join(plexpath, showname)):
+        logging.warn('Show ' + showname + ' doesn\'t exist in plex, will have to create ')
+        create_show = True
+    else:
+        if not os.path.exists(os.path.join(plexpath, showname, seasonDir)):
+            logging.warn('Season ' + season + ' folder doesn\'t existe in plex, will have to create ')
+            create_season = True
+
+    # make sure the file doesn't already exist (force update overrides)
+    if create_season or create_show:
+        os.makedirs(os.path.join(plexpath, showname, seasonDir))
+
+    # Move file
+    if not os.path.exists(os.path.join(plexpath, showname, seasonDir, plexFileName)):
+        shutil.move(filename, os.path.join(plexpath, showname, seasonDir, plexFileName))
     return
     
 def link_dvr_to_plex():
@@ -142,6 +170,9 @@ def link_plex_to_dvr():
     
 def save_min_metadata(f,metadata):
     logging.info('Resaving metadata as ' + f)
+    md = hdhr_md.HDHomeRunMD(metadata)
+    tswr = hdhr_tswriter.TSWriter(metadata)
+    tswr.create_ts_file(f)
     return
 
 if __name__ == "__main__":
@@ -186,7 +217,7 @@ if __name__ == "__main__":
             if tools.link2dvr:
                 link_plex_to_dvr()
             elif tools.saveMeta():
-                save_min_metadata(f,md)
+                save_min_metadata(f,metaData)
         else:
             logging.info('Renaming ' + f)
             rename_episode(f,showname,md['season'],md['epnum'],md['eptitle'],md['special'],tools.dirRename(), tools.forceEnabled())
