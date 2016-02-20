@@ -36,11 +36,18 @@ class HDHomeRunMD:
         for md in self.metaData:
             if md[0] == '"EpisodeTitle"' :
                 return md[1].replace('"',"")
+        return ''
     
     def extract_epAirDate(self):
         for md in self.metaData:
             if md[0] == '"OriginalAirdate"' :
                 return md[1].replace('"',"")
+
+    def extract_hdhr2plex(self):
+        for md in self.metaData:
+            if md[0] == '"hdhr2plex"' :
+                return md[1].replace('"',"")
+        return ''
      
     def lookup_episode_bydate(self, showname, epAirdate):
         epCandidates = []

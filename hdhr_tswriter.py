@@ -30,6 +30,9 @@ class TSWriter:
     def __init__(self, metadata):
         self.build_md_dict(metadata)
         
+    def add_custom_md(self, key, value):
+        self.md_data.update({key:value})
+        
     def build_header(self, start, counter):
         barray = bytearray()
         barray.append(TS_SYNC_BYTE)

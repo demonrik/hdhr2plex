@@ -27,6 +27,11 @@ hdhr_cfg_link2dvr = 'link2dvr'
 hdhr_cfg_metasave = 'metasave'
 hdhr_cfg_forceUpdate = 'forceupdate'
 hdhr_cfg_skip_shows = 'skipshows'
+hdhr_cfg_liveDelay = 'livedelay'
+hdhr_cfg_days2archive = 'days2archive'
+hdhr_cfg_days2delete = 'days2delete'
+
+
 
 class ScriptTools:
 
@@ -40,6 +45,9 @@ class ScriptTools:
         self.link2plex = False
         self.link2dvr = False
         self.savemd = False
+        self.livedelay = 0
+        self.days2delete = 0
+        self.days2archive = 14
 
         arg_parser = argparse.ArgumentParser(description='Process command line args')
         for n in hdhr_args_list:
@@ -135,6 +143,18 @@ class ScriptTools:
                 self.skip_list = sections[hdhr_cfg_main][hdhr_cfg_skip_shows]
                 print 'Setting up Skip Shows: ', self.skip_list
 
+            if key == hdhr_cfg_liveDelay:
+                self.livedelay = sections[hdhr_cfg_main][hdhr_cfg_liveDelay]
+                print 'Live Delay: ', self.livedelay
+
+            if key == hdhr_cfg_days2archive:
+                self.days2archive = sections[hdhr_cfg_main][hdhr_cfg_days2archive]
+                print 'Days Until Archive: ', self.days2archive
+
+            if key == hdhr_cfg_days2delete:
+                self.days2delete = sections[hdhr_cfg_main][hdhr_cfg_days2delete]
+                print 'Days Until Delete: ', self.days2delete
+
         # Extract Logging Information
         loglevel = 'warning'
         if self.args.loglevel:
@@ -186,3 +206,12 @@ class ScriptTools:
 
     def saveMeta(self):
         return self.savemd
+    
+    def getLiveDelay(self):
+    	return self.livedelay
+    
+    def getDays2Archive(self):
+    	return self.days2archive
+    	
+    def getDays2Delete(self):
+    	return self.days2delete
