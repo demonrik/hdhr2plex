@@ -67,7 +67,7 @@ if __name__ == "__main__":
 		
 		# Check if file meets the age requirements for archiving
 		if not pathTools.is_older_than(f, int(tools.getDays2Archive())*24*60*60):
-			logging.debug('File is not yet met days to archive [' + str(int(tools.getDays2Archive())*24*60*60) + '] seconds, skipping' )
+			logging.info('File is not yet met days to archive [' + str(int(tools.getDays2Archive())*24*60*60) + '] seconds, skipping' )
 			continue
 		
 		# Parse the Metadata
