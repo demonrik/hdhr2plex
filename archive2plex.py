@@ -57,6 +57,11 @@ if __name__ == "__main__":
 
 	shows = pathTools.get_shows_in_dir(tools.get_dvr_path())
 	for show in shows:
+		# Check for Movies/Sporting Events - needs to go be handled differently
+		if pathTools.is_special_show_type(os.path.basename(show)):
+			# TODO: handle these shows - for now skip
+			logging.warn('*** Movie or Sporting Event found - Skipping ***')
+			continue
 		episodes = pathTools.get_episodes_in_show(show)
 		files.extend(episodes)
 
@@ -69,7 +74,7 @@ if __name__ == "__main__":
 		if not pathTools.is_older_than(f, int(tools.getDays2Archive())*24*60*60):
 			logging.info('File is not yet met days to archive [' + str(int(tools.getDays2Archive())*24*60*60) + '] seconds, skipping' )
 			continue
-		
+
 		# Parse the Metadata
 		metaData = pathTools.parse_file_for_data(f)
 		if pathTools.check_parsed_by_hdhr2plex(metaData):

@@ -15,6 +15,11 @@ import hdhr_thetvdb
 
 
 HDHR_TS_METADATA_PID = 0x1FFA
+
+hdhr_type_movies = 'Movies'
+hdhr_type_sports = 'Sporting Events'
+
+
 shows2skip = {}
 
 class HDHomeRunPath:
@@ -117,3 +122,9 @@ class HDHomeRunPath:
 		tswr.add_custom_md('"hdhr2plex"','1')
 		tswr.create_ts_file(filename)
 		return
+		
+	def is_special_show_type(self, showname):
+		logging.info('Checking Show ' + showname + ' is not Movie or Sporting Event')
+		if (showname == hdhr_type_movies) or (showname == hdhr_type_sports):
+			return True
+		return False
