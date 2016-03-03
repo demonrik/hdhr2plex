@@ -82,19 +82,19 @@ days2archive:
 Some shows you just don't want to backup to Plex, and some shows cause issues and you want to skip them.
 To do so just create a section matching the name provided in the configuration files 'skipshows' parameter and the scripts will parse the list.
 Each entry must have a unique key. Recommendation is simply to number the entries, For Example
-'''
+```
 [skip_shows]
 1: "Masterpiece Classic"
 2: "Masterpiece"
 3: "The Tonight Show with Jimmy Fallon"
 4: "Masterchef"
-'''
+```
 *** Force Shows ***
 Some of the shows in your skip list you want to force the scripts to remove once days2delete are expired.
 But because they are in the skip list, they won't be processed.
 To bring them back into consideration for deleting add the shows to a new section matching the name provided in the configuration files 'forceshows' forceshows
 Each entry must have a unique key. Recommendation is simply to number the entries, For Example
-'''
+```
 [force_shows]
 1: "Hell's Kitchen"
-'''
+```
