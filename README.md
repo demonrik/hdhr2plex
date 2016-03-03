@@ -66,6 +66,9 @@ skipshows:
 forceshows:
 - name of section that contains a list of the skipshows.
 
+postproc:
+- name and path to postprocessing file to run once file is moved to Plex.
+
 livedelay:
 - number of seconds that the file should be untouched/unmodified before parsing
 
