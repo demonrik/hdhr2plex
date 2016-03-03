@@ -2,22 +2,22 @@
 A small project called to develop some python scripts to aid in archiving [SiliconDust](http://www.silicondust.comhttp://www.silicondust.com) HDHomerun DVR recordings to plex.
 It uses the [thetvdb]([http://www.thetvdb.com]) for season and episode information for when the guide from SiliconDust doesn't.
 
-**_Prerequisites_**  
+### Prerequisites  
 - Python (2.6+)  
 - tvdb_api [tvdb_api](https://github.com/dbr/tvdb_api/)
 
 
-**_Current Status_**  
+### Current Status   
 At this stage scripts are still in development and dependent on updates from SiliconDust.  
 The *archive2plex.py* will parse the HDHR recordings folder, match the series and episodes to thetvdb and then archive the files to Plex folder depending on settings in the configuration file.
 The *fix_filenames.py* iterates through all the files in the HDHR recordings folder, scans the TS file for meta data and then does a look up on thetvdb for missing info before renaming the file to match Plex requirements (and optionally the folder).  
 The *create_mdonly.py* provides a simple script to take the output metadata from the logfiles and generate a valid MPG for testing.  
 The *dump_md.py* scans an MPG file for the HDHR metadata section and dumps to STDOUT  
 
-**_Tested Platforms_**  
+### Tested Platforms   
 QNAP-x51 with QTS 4.1.4/4.2  (linux)
 
-**_Usage_**  
+### Usage  
 ```sh
 $ python fix-filenames.py --config <config file>
 ```
@@ -26,7 +26,8 @@ $ python ./create_mdonly.py <metadata file>
 ```
 
 
-**_Config File_**  
+### Config File
+**_HDHR-DVR_** 
 The main configuration details are stored in a section titled  [HDHR-DVR]
 the parameters include
 
@@ -78,7 +79,7 @@ days2delete:
 days2archive:
 - days to expire before files are moved from HDHR to Plex. Set to 0 to make it immediate.
 
-*** Skipping Shows ***
+**_Skipping Shows_**
 Some shows you just don't want to backup to Plex, and some shows cause issues and you want to skip them.
 To do so just create a section matching the name provided in the configuration files 'skipshows' parameter and the scripts will parse the list.
 Each entry must have a unique key. Recommendation is simply to number the entries, For Example
@@ -89,7 +90,7 @@ Each entry must have a unique key. Recommendation is simply to number the entrie
 3: "The Tonight Show with Jimmy Fallon"
 4: "Masterchef"
 ```
-*** Force Shows ***
+**_Force Shows_**
 Some of the shows in your skip list you want to force the scripts to remove once days2delete are expired.
 But because they are in the skip list, they won't be processed.
 To bring them back into consideration for deleting add the shows to a new section matching the name provided in the configuration files 'forceshows' forceshows
