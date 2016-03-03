@@ -70,6 +70,49 @@ class TVDBMatcher:
 				return allseries[x]['seriesname']
 		return ''
 
+	def isDoubleEpisode(self, epNumber, epTitle, epCandidates):
+		#-----------------
+		# if numCandidates > 1 its usually because 2 or more episodes occurred on the same day
+		# those episodes could be a double episode, or a special + actual
+		# First rule out double episode
+		#  IF epNumber from SD contains 2 numbers
+		#      and/or title contains 2 titles
+		#    then we actually do have a double episode
+		#  ELSE
+		#     IF all episodes in epcandidates the same show and season
+		#         and episode numbers are sequential
+		#       then we have a double (or more) episode
+		
+		# This is Brittle - SD changes anything and this is not going to work.
+		episodes = re.findall(r"\d+",epNumber)
+		titles = epTitle.split(';')
+		logging.debug('Episode Numbers: ' + str(episodes))
+		logging.debug('Titles: ' + str(titles))
+		
+		epMatches = titleMatches = 0
+		for ep in epCandidates:
+			for title in titles:
+				logging.debug('Looking for ' + ep['episodename'] + ' in ' + title.strip())
+				if ep['episodename'] in title.strip():
+					titleMatches = titleMatches + 1
+			for episode in episodes:
+				logging.debug('Looking for ' + ep['episodenumber'] + ' in ' + episode)
+				ePos = episode.strip().rfind(ep['episodenumber'])
+				sPos = episode.strip().find(ep['seasonnumber'])
+				if (sPos == 0) and (ePos == len(episode) - 1):
+					epMatches = epMatches + 1
+		
+		logging.debug( str(titleMatches) + ' titles matched')
+		logging.debug( str(epMatches) + ' episodes matched')
+		if titleMatches == 2 and epMatches == 2:
+			logging.info('Found Double Episode Recording for: ' + epNumber)
+			return True
+		
+		#
+		# If it's not a double episode in the file.. we need to determine which actual
+		# epside is recorded.
+		#  
+		return False
 
 	def getTVDBInfo(self, showname, epAirdate, epTitle, epNumber) :
 		logging.debug('searching for [' + showname + '] [' + epAirdate + ']')
@@ -78,6 +121,13 @@ class TVDBMatcher:
 		numCandidates = len(epCandidates)
 		logging.debug('Found ' + str(numCandidates) + ' Candidates shows to check...')
 		if numCandidates >= 1:
+			if self.isDoubleEpisode(epNumber, epTitle, epCandidates):
+				seriesname = self.getTVDBSeriesName(showname, epCandidates[0]['seriesid']);
+				return {'seriesname':seriesname,
+						'season_num':str(epCandidates[0]['seasonnumber']).zfill(2),
+						'episode_num':str(epCandidates[0]['episodenumber']).zfill(2),
+						'episode2_num':str(epCandidates[1]['episodenumber']).zfill(2)}
+				
 			for ep in epCandidates:
 				if (epTitle and (epTitle == ep['episodename'])):
 					logging.info(ep['seasonnumber'] + '|' + ep['episodenumber'] + '|' + ep['episodename'] + ' is best match')
@@ -86,7 +136,7 @@ class TVDBMatcher:
 				else:
 					continue
 			logging.debug('No best Match - settling for first match')
-			return {'seriesname':self.getTVDBSeriesName(showname,epCandidates[0]['seriesid']), 'season_num':epCandidates[0]['seasonnumber'], 'episode_num':epCandidates[0]['episodenumber']}
+			return {'seriesname':self.getTVDBSeriesName(showname,epCandidates[0]['seriesid']), 'season_num':str(epCandidates[0]['seasonnumber']).zfill(2), 'episode_num':str(epCandidates[0]['episodenumber']).zfill(2)}
 		# if nothing matched need to just return some dummy data
 		logging.debug('No candidates found - setting it to blanks')
 		return {'seriesname':'', 'season_num':'', 'episode_num':''}

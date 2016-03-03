@@ -55,7 +55,7 @@ class HDHomeRunPath:
 					break
 		return parser.extract_metadata(tempMD)
 	
-	def isSpecialShow(self, showname):
+	def is_skip_show(self, showname):
 		if not shows2skip:
 			return False
 		for show in shows2skip:
@@ -89,21 +89,26 @@ class HDHomeRunPath:
 		season = episode = name = ''
 	
 		# Need to workaround some bad titles that US TV and thetvdb.com are in conflict for.
-		if not self.isSpecialShow(show):
+		if not self.is_skip_show(show):
 			tvdbEpData = db.getTVDBInfo(show,epAirDate,epTitle,epNumber)
 			season = tvdbEpData['season_num']
 			episode = tvdbEpData['episode_num']
 			name =  tvdbEpData['seriesname']
+			
+			# fix for double episode
+			if 'episode2_num' in tvdbEpData:
+				episode = episode + 'E' + tvdbEpData['episode2_num']
+			
 			if name == season == episode == '':
 				logging.debug('Got nothing from thetvdb, so going to have to fall back to whatever was provided by SD')
-				return {'show':show, 'season':self.get_season_from_epnumber(epNumber), 'epnum':epNumber, 'eptitle':epTitle}
+				return {'show':show, 'tvdbname':'', 'season':self.get_season_from_epnumber(epNumber), 'epnum':epNumber, 'eptitle':epTitle}
 			else:
 				logging.info('=== Extracted from thetvdb for [' + show + ']: seriesname [' + name + '] Season [' + season + '] Episode: [' + episode +']')
-				return {'show':name, 'season':season, 'epnum':('S'+season+'E'+episode), 'eptitle':epTitle}
+				return {'show':show, 'tvdbname':name, 'season':season, 'epnum':('S'+season+'E'+episode), 'eptitle':epTitle}
 		else:
 			logging.debug('*** Show [' + show + '] marked for special handling - and will not use theTvDb.com')
 			season = self.get_season_from_epnumber(epNumber)
-			return {'show':show, 'season':season, 'epnum':epNumber, 'eptitle':epTitle}
+			return {'show':show, 'tvdbname':'', 'season':season, 'epnum':epNumber, 'eptitle':epTitle}
 	
 	def is_older_than(self, filename, numSecs):
 		fmtime = datetime.datetime.fromtimestamp(os.stat(filename).st_mtime)
@@ -117,7 +122,6 @@ class HDHomeRunPath:
 			
 	def save_min_metadata(self,filename,metadata):
 		logging.info('Resaving metadata as ' + filename)
-		md = hdhr_md.HDHomeRunMD(metadata)
 		tswr = hdhr_tswriter.TSWriter(metadata)
 		tswr.add_custom_md('"hdhr2plex"','1')
 		tswr.create_ts_file(filename)
@@ -128,3 +132,55 @@ class HDHomeRunPath:
 		if (showname == hdhr_type_movies) or (showname == hdhr_type_sports):
 			return True
 		return False
+		
+	def fix_title(self, epTitle):
+		newTitle = str.replace(epTitle,'/','_')
+		return newTitle
+	
+	def fix_filename(self, show, season, episode, epTitle):
+		basename = show + '-' + episode
+		newTitle = self.fix_title(epTitle)
+		if newTitle == '':
+			return basename + '.mpg'
+		else:
+			return basename + '-' + newTitle + '.mpg'
+	
+	def is_already_fixed(self, filename):
+		# Checking file is form of <show>-S<season number>E<episode number>[- title]
+		# where title is optional, but must have show, season and episode numbers
+		regexPatSearch = re.compile(r'-S\d+E\d+-')
+		if regexPatSearch.search(filename):
+			logging.debug('Matched SxxExx in filename: ' + filename)
+			return True
+		#Check for double episode pattern
+		regexPatSearch = re.compile(r'-S\d+E\d+E\d+-')
+		if regexPatSearch.search(filename):
+			logging.debug('Matched SxxExxExx in filename: ' + filename)
+			return True
+			
+		return False
+	
+	def rename_episode(self, filename, show, season, episode, epTitle, renameDir, force):
+		if not epTitle:
+			epTitle = ''
+		base_name = os.path.basename(filename)
+	
+		# shouldn't need to recheck, but may as well..
+		if (base_name == self.fix_filename(show, season, episode, epTitle)) & (not force):
+			logging.warn('Filename '+ base_name + ' already fixed')
+		else:
+			dir_name = os.path.dirname(filename)
+			if renameDir:
+				parentDir = os.path.dirname(dir_name)
+				oldShowDir = os.path.basename(dir_name)
+				logging.debug('parent path: [' + parentDir + '] with show [' + oldShowDir + '] comparing to [' + show + ']')
+				if not oldShowDir == show:
+					dir_name = os.path.join(parentDir, show)
+					logging.debug('Setting output path to: ' + dir_name)
+					if not os.path.exists(dir_name):
+						logging.debug(' Creating new folders for: ' + dir_name)
+						os.makedirs(dir_name)
+    
+    		new_name = os.path.join(dir_name, self.fix_filename(show, season, episode, epTitle))
+    		logging.debug('replacing ' + filename + ' with ' + new_name)
+    		os.rename(filename,new_name)

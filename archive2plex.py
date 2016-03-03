@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
 	pathTools = hdhr_path.HDHomeRunPath()
 
-	hdhr_path.shows2skip = tools.get_skip_shows().split(',')
+	hdhr_path.shows2skip = tools.get_skip_shows()
 	logging.debug('Skip Shows ' + str(hdhr_path.shows2skip))
 
 	shows = pathTools.get_shows_in_dir(tools.get_dvr_path())
@@ -113,6 +113,8 @@ if __name__ == "__main__":
 			
 			# ok to move file
 			if plexTools.move_episode_to_plex(md['show'],md['season'], plex_filename, f):
+				# Post Process the File
+				plexTools.post_process_file(md['show'],md['season'], plex_filename, tools.getPostProc())
 				# Save metadata file or softlink back
 				pathTools.save_min_metadata(f,metaData)
 		else:

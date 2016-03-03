@@ -7,6 +7,8 @@ import re
 import shutil
 import platform
 
+import post_proc
+
 class PlexTools:
 	def __init__(self, plexpath):
 		self.plexpath = plexpath
@@ -143,6 +145,27 @@ class PlexTools:
 		
 		return filename
 		
+	def post_process_file(self, show, season, plexfile, script):
+		# Check plexpath exists
+		if not os.path.exists(self.plexpath):
+			logging.error('Plex Path ' + self.plexpath + ' does not exist.')
+			return False
+		# Check the show exists
+		if not self.check_show_in_plex(show):
+			logging.debug('Plex does not contain show [' + show + ']  - Can\'t move file')
+			return False
+		# Check the Season exists in the show
+		season_str = self.check_season_in_plex(show, season)
+		if season_str == '':
+			logging.debug('Plex does not contain season [' + season + '] for show [' + show + '] so can\t move file')
+			return False
 		
+		new_plex_filename = plexfile.replace(".mpg",".mkv")
+		# TODO: Add check for new plex filename - don't want to overwrite an existing file.
+		postProc = post_proc.PostProcessor(script)
+		postProc.set_infile(os.path.join(self.plexpath, show, season_str, plexfile))
+		postProc.set_outfile(os.path.join(self.plexpath, show, season_str, new_plex_filename))
+		postProc.execute_script()
+				
 		
 		
