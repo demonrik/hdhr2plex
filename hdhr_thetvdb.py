@@ -9,6 +9,7 @@ from time import strftime
 import datetime
 import tvdb_api
 
+languages = ""
 
 class TVDBMatcher:
 	def __init__(self):
@@ -27,8 +28,8 @@ class TVDBMatcher:
 	def lookup_episode_bydate(self, showname, epAirdate):
 		epCandidates = []
 		logging.info('Finding Episode/Season details by showname and airdate')
-		logging.debug('Connecting to theTVdb.com')
-		tvdb = tvdb_api.Tvdb()
+		logging.debug('Connecting to theTVdb.com with languages: ' +str(languages))
+		tvdb = tvdb_api.Tvdb(language=str(languages))
 		logging.debug('Finding the shows with the name ' + showname)
 		seriesname = ''
 		season = 0
@@ -60,8 +61,10 @@ class TVDBMatcher:
 		return epCandidates
 
 	def getTVDBSeriesName(self, showname, seriesID):
-		logging.debug('Connecting to theTVdb.com')
-		tvdb = tvdb_api.Tvdb()
+		logging.debug('Connecting to theTVdb.com with languages: ' +str(languages))
+		tvdb = tvdb_api.Tvdb(language=str(languages))
+		if languages:
+			tvdb.language = languages
 		logging.debug('Finding the shows with the ID ' + seriesID)
 		allseries = tvdb.search(showname)
 		for x in range(len(allseries)):

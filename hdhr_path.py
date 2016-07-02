@@ -19,10 +19,18 @@ HDHR_TS_METADATA_PID = 0x1FFA
 hdhr_type_movies = 'Movies'
 hdhr_type_sports = 'Sporting Events'
 
-
 shows2skip = {}
+languages = {}
 
 class HDHomeRunPath:
+	try:
+		basestring  # attempt to evaluate basestring
+		def isstr(s):
+			return isinstance(s, basestring)
+	except NameError:
+		def isstr(s):
+			return isinstance(s, str)
+
 	def __init__(self):
 		return
 
@@ -66,8 +74,10 @@ class HDHomeRunPath:
 	
 	def get_season_from_epnumber(self, epNumber):
 		season = '00'
-		if len(re.findall('S\d{2}E\d{2}',epNumber)) > 0:
-			season = re.findall('S\d{2}',epNumber)[0].replace('S','')
+		if self.isstr(epNumber):
+			if len(re.findall('S\d{2}E\d{2}',epNumber)) > 0:
+				season = re.findall('S\d{2}',epNumber)[0].replace('S','')
+		
 		return season
 		
 	def check_parsed_by_hdhr2plex(self, metadata):
@@ -80,6 +90,14 @@ class HDHomeRunPath:
 	def extract_metadata(self, metadata):
 		md = hdhr_md.HDHomeRunMD(metadata)
 		db = hdhr_thetvdb.TVDBMatcher()
+		if languages:
+			langStr = ""
+			if len(languages) > 1:
+				for lang in languages:
+					langStr += lang + ','
+			else:
+				langStr = languages[0]
+			hdhr_thetvdb.languages = langStr
 		md.print_metaData()
 	
 		show = md.extract_show()

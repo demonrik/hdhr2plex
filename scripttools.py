@@ -32,6 +32,7 @@ hdhr_cfg_days2archive = 'days2archive'
 hdhr_cfg_days2delete = 'days2delete'
 hdhr_cfg_postproc = 'postproc'
 hdhr_cfg_force_shows = 'forceshows'
+hdhr_cfg_languages = 'languages'
 
 
 class ScriptTools:
@@ -52,6 +53,7 @@ class ScriptTools:
 		self.postproc = ''
 		self.skip_list = []
 		self.force_list = []
+		self.lang_list = []
 
 		arg_parser = argparse.ArgumentParser(description='Process command line args')
 		for n in hdhr_args_list:
@@ -168,12 +170,18 @@ class ScriptTools:
 
 			if key == hdhr_cfg_skip_shows:
 				skip_list_key = sections[hdhr_cfg_main][hdhr_cfg_skip_shows]
-				print ' found ', skip_list_key
 				if skip_list_key in sections.keys():
-					print ' found section ', skip_list_key
 					for key in sections[skip_list_key].keys():
 						self.skip_list.append(sections[skip_list_key][key])
 				print 'Setting up Skip Shows: ', self.skip_list
+
+			if key == hdhr_cfg_languages:
+				language_list_key = sections[hdhr_cfg_main][hdhr_cfg_languages]
+				if language_list_key in sections.keys():
+					for key in sections[language_list_key].keys():
+						self.lang_list.append(sections[language_list_key][key])
+				print 'Setting up theTVDB laguanges: ', self.lang_list
+
 
 		# Extract Logging Information
 		loglevel = 'warning'
@@ -200,6 +208,9 @@ class ScriptTools:
 									level=LOGLEVELS.get(loglevel, logging.WARNING))
 		print 'Logging to: ', logfile
 
+	def get_languages(self):
+		return self.lang_list
+	
 	def get_skip_shows(self):
 		return self.skip_list
 	

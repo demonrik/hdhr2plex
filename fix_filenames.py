@@ -26,7 +26,9 @@ if __name__ == "__main__":
 
 	pathTools = hdhr_path.HDHomeRunPath()
 	hdhr_path.shows2skip = tools.get_skip_shows()
+	hdhr_path.languages = tools.get_languages()
 	logging.debug('Skip Shows ' + str(hdhr_path.shows2skip))
+	logging.debug('Languages ' + str(hdhr_path.languages))
 
 	shows = pathTools.get_shows_in_dir(tools.get_dvr_path())
 	for show in shows:
