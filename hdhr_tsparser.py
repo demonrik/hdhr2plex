@@ -54,14 +54,11 @@ class TSParser:
 				mdString = tempData[1:stopIndex]
 			
 			# Need to fix up the string to make the split into a tuple list easier
-			# if only SD would add string demarkers to stringified numbers..
 			mdString = mdString.replace('","','"|"')
-			mdString = mdString.replace(',"','"|"')
-			mdString = mdString.replace('":"','","')
-			mdString = mdString.replace('":','","')
+			mdString = mdString.replace(',"','|"')
 			
 			# Now to create the tuple list
 			mdTuples = mdString.split('|')
 			for t in mdTuples:
-				metaData.append(t.split(',',1))
+				metaData.append(t.split(':',1))
 		return metaData

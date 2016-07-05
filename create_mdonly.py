@@ -20,8 +20,8 @@ md_data = []
 def parse_md_file(filename):
 	md_tuple_str = ''
 	for line in open(filename,'r'):
-		if line.startswith('DEBUG:root:'):
-			md_tuple_str = line[len('DEBUG:root:'):].rstrip()
+		if line.startswith('INFO:root:'):
+			md_tuple_str = line[len('INFO:root:'):].rstrip()
 			md_name, md_value = md_tuple_str.split('|',1)
 			if ((md_name == 'EndTime')
 				or (md_name == 'OriginalAirdate')

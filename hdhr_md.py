@@ -15,7 +15,7 @@ class HDHomeRunMD:
 
 	def print_metaData(self):
 		for md in self.metaData:
-			logging.debug(md[0].replace('\"',"") + '|' + md[1].replace('\"',""))
+			logging.info(md[0].replace('\"',"") + '|' + md[1].replace('\"',""))
 	
 	def extract_show(self):
 		for md in self.metaData:
@@ -48,6 +48,13 @@ class HDHomeRunMD:
 			if md[0] == '"hdhr2plex"' :
 				return md[1].replace('"',"")
 		return ''
+
+	def extract_seriesID(self):
+		for md in self.metaData:
+			if md[0] == '"SeriesID"' :
+				return md[1].replace('"',"")
+		return ''
+
 	 
 	def lookup_episode_bydate(self, showname, epAirdate):
 		epCandidates = []

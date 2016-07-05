@@ -62,7 +62,7 @@ class TSWriter:
 				header = self.build_header(start, blockCtr)
 				blockCtr = (blockCtr + 1) % 0x10
 				header.append('{')
-				logging.debug('Writing the Header to the TS File...')
+				logging.debug('Writing the Header (A) to the TS File...')
 				ts_file.write(header)
 				start = False
 				bytesLeft = bytesLeft - 5
@@ -75,29 +75,30 @@ class TSWriter:
 					blocksDone = blocksDone + 1
 					header = self.build_header(start, blockCtr)
 					blockCtr = (blockCtr + 1) % 0x10
-					logging.debug('Writing the Header to the TS File...')
+					logging.debug('Writing the Header (B) to the TS File...')
 					ts_file.write(header)
 					ts_file.write(',')
-					bytesLeft = bytesLeft - 5
+					bytesLeft = TS_BLOCK_SIZE - 5
 
-			logging.debug('Writing the Key: ' + key)
+			logging.debug('Writing the Key: ' + key + ' BytesLeft: ' + str(bytesLeft))
 			if len(key) <= bytesLeft:
 				ts_file.write(bytearray(key))
 				bytesLeft = bytesLeft - len(key)
 			else:
 				key_left = key[:bytesLeft]
 				key_right = key[bytesLeft:]
-				if bytesLeft != 0:					ts_file.write(key_left)
+				if bytesLeft != 0:
+					ts_file.write(key_left)
 				blocksDone = blocksDone + 1
 				header = self.build_header(start, blockCtr)
 				blockCtr = (blockCtr + 1) % 0x10
-				logging.debug('Writing the Header to the TS File...')
+				logging.debug('Writing the Header (C) to the TS File...')
 				ts_file.write(header)
 				bytesLeft = TS_BLOCK_SIZE - 4
 				ts_file.write(key_right)
 				bytesLeft = bytesLeft - (len(key_right))
-		   
-			logging.debug('Writing the Separator :')
+
+			logging.debug('Writing the Separator :' + ' BytesLeft: ' + str(bytesLeft))
 			if bytesLeft >= 1:
 				ts_file.write(':')
 				bytesLeft = bytesLeft - 1
@@ -105,6 +106,7 @@ class TSWriter:
 				blocksDone = blocksDone + 1
 				header = self.build_header(start, blockCtr)
 				blockCtr = (blockCtr + 1) % 0x10
+				logging.debug('Writing the Header (D) to the TS File...')
 				ts_file.write(header)
 				ts_file.write(':')
 				bytesLeft = bytesLeft - 5
@@ -122,11 +124,12 @@ class TSWriter:
 				blocksDone = blocksDone + 1
 				header = self.build_header(start, blockCtr)
 				blockCtr = (blockCtr + 1) % 0x10
+				logging.debug('Writing the Header (E) to the TS File...')
 				ts_file.write(header)
 				bytesLeft = bytesLeft - 4
 	
 				ts_file.write(val_right)
-				bytesLeft = 188 - (len(self.md_data[key]) - bytesLeft)
+				bytesLeft = TS_BLOCK_SIZE - (len(self.md_data[key]) - bytesLeft)
 	
 		ts_file.write('}')
 		logging.debug('Padding out the final TS frame')
